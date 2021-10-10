@@ -17,14 +17,20 @@ const EditPreferences = () => {
   const { preferences, loading } = preferenceContext;
   const [preferenceData , setPreferenceData] = useState(preferences)
 
+  useEffect(() => {
+    if (Object.keys(preferences).length === 0) {
+      preferenceContext.getPreference();
+    }  
+  }, [])
+  useEffect(() => {
+    setPreferenceData(preferences);
+    // eslint-disable-next-line
+  }, [preferences])
+
   const updatePreference = (e) => {
     e.preventDefault();
     preferenceContext.updatePreference({...preferenceData});
     history.push('/preferences');
-  }
-
-  if(loading) {
-    return <p>Loading...</p>
   }
   return (
     <>

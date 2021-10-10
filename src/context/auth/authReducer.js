@@ -8,7 +8,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  CHECK_AUTH
 } from '../types';
 
 // eslint-disable-next-line
@@ -32,6 +33,13 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: false
       };
+    case CHECK_AUTH:
+      return {
+        ...state,
+        token: action.payload,
+        isAuthenticated: true,
+        loading: false
+      };  
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:

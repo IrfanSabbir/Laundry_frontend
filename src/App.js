@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
@@ -22,69 +22,74 @@ import AlertState from './context/alert/AlertState';
 import PreferenceState from './context/preference/PreferenceState';
 import setAuthToken from './utils/setAuthToken';
 import './App.css';
+import AuthContext from './context/auth/authContext';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
 const App = () => {
+  const authContext = useContext(AuthContext);
+  useEffect(() => {
+    authContext.authCheck();
+  }, [])
   return (
-    <AuthState>
-      <AlertState>
-        <PreferenceState>
-          <Router>
-            <>
-              <Navbar />
-              <div>
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/services" component={Services} />
-                  <Route exact path="/signup" component={Signup} />
-                  <Route exact path="/login" component={Login} />
-                  <Route
-                    exact
-                    path="/forgotpassword"
-                    component={ForgotPassword}
-                  />
-                  <Route
-                    exact
-                    path="/resetpassword"
-                    component={ResetPassword}
-                  />
-                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                  <PrivateRoute
-                    exact
-                    path="/editdashboard"
-                    component={EditDashboard}
-                  />
-                  <PrivateRoute Route exact path="/billing" component={Billing} />
-                  <PrivateRoute
-                    Route
-                    exact
-                    path="/editbilling"
-                    component={editBilling}
-                  />
-                  <PrivateRoute
-                    Route
-                    exact
-                    path="/preferences"
-                    component={Preferences}
-                  />
-                  <PrivateRoute
-                    Route
-                    exact
-                    path="/editPreferences"
-                    component={editPreferences}
-                  />
-                  <Route exact path="/privacy" component={Privacy} />
-                </Switch>
-              </div>
-            </>
-          </Router>
-        </PreferenceState>
-      </AlertState>
-    </AuthState>
+    // <AuthState>
+    //   <AlertState>
+    //     <PreferenceState>
+    <Router>
+      <>
+        <Navbar />
+        <div>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/services" component={Services} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
+            <Route
+              exact
+              path="/forgotpassword"
+              component={ForgotPassword}
+            />
+            <Route
+              exact
+              path="/resetpassword"
+              component={ResetPassword}
+            />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute
+              exact
+              path="/editdashboard"
+              component={EditDashboard}
+            />
+            <PrivateRoute Route exact path="/billing" component={Billing} />
+            <PrivateRoute
+              Route
+              exact
+              path="/editbilling"
+              component={editBilling}
+            />
+            <PrivateRoute
+              Route
+              exact
+              path="/preferences"
+              component={Preferences}
+            />
+            <PrivateRoute
+              Route
+              exact
+              path="/editPreferences"
+              component={editPreferences}
+            />
+            <Route exact path="/privacy" component={Privacy} />
+          </Switch>
+        </div>
+      </>
+    </Router>
+    //     </PreferenceState>
+    //   </AlertState>
+    // </AuthState>
   );
 };
 

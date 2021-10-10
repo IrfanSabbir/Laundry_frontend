@@ -13,7 +13,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  CHECK_AUTH,
 } from '../types';
 
 const AuthState = props => {
@@ -35,7 +36,6 @@ const AuthState = props => {
 
     try {
       const res = await axios.get('/api/auth');
-      console.log(res.data);
 
       dispatch({
         type: USER_LOADED,
@@ -122,6 +122,20 @@ const AuthState = props => {
     }
   };
 
+  const authCheck = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch({
+        type: CHECK_AUTH,
+        payload: token,
+      });
+      loadUser();
+    }
+    else {
+      logout();
+    }
+  };
+
   // Logout
   const logout = () => dispatch({ type: LOGOUT });
 
@@ -142,8 +156,7 @@ const AuthState = props => {
         login,
         logout,
         clearErrors,
-        // getPreference,
-        // updatePreference,
+        authCheck
       }}
     >
       {props.children}
